@@ -1,0 +1,9 @@
+query{
+  contacts
+  {
+  name
+  phoneNumber
+  email
+  address
+}
+}
