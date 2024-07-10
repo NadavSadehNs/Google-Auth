@@ -30,7 +30,7 @@ export class ContactResolver {
                 const phoneNumber = connection.phoneNumbers?.[0]?.value || "No Phone Number";
                 const address = connection.addresses?.[0]?.formattedValue || "No Address";
                 const id = connection.resourceName?.split('/')[1];
-                //console.log(JSON.stringify(connection));
+                console.log(JSON.stringify(connection));
                 return { name, email, phoneNumber, address, id};
             });
 
@@ -119,27 +119,25 @@ async DeleteContactResponse(
 
         const peopleService = google.people({version: 'v1', auth: ctx.authClient});
 
-        const response = await peopleService.people.get({
-            resourceName: `people/${input.id}`,
-            personFields: 'name, emailAddresses, phoneNumbers, adresses',
-        });
+        // const response = await peopleService.people.get({
+        //     resourceName: `people/${input.id}`,
+        // });
 
         await peopleService.people.deleteContact({
             resourceName: `people/${input.id}`,
         });
 
-        // Construct the response
-        const deletedContact = {
-            name: response.data.names?.[0]?.displayName || "No Name",
-            email: response.data.emailAddresses?.[0]?.value || "No Email",
-            phoneNumber: response.data.phoneNumbers?.[0]?.value || "No Phone Number",
-            address: response.data.addresses?.[0]?.formattedValue || "No Address",
-            id: input.id,
-        };
+        // // Construct the response
+        // const deletedContact = {
+        //     name: response.data.names?.[0]?.displayName || "No Name",
+        //     email: response.data.emailAddresses?.[0]?.value || "No Email",
+        //     phoneNumber: response.data.phoneNumbers?.[0]?.value || "No Phone Number",
+        //     address: response.data.addresses?.[0]?.formattedValue || "No Address",
+        //     id: input.id,
+        // };
 
         return {
             message: `Contact with ID ${input.id} has been successfully deleted.`,
-            deletedContact,
         };
     }
     catch(error) {
